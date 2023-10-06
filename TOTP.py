@@ -2,17 +2,16 @@
 import binascii
 import time
 import hmac, hashlib, base64
-import struct
 
 
 ''' Usage:
     #1. Use a str to initiate.
         totp = TOTP('5FO25YTPWBULEHGX')
-        # In this case the key will be firstly base32-decoded.
+        # In this case, the key will first be base32-decoded.
 
     #2. Use a bytes to initiate.
         totp = TOTP(b'1234567890')
-        # In this case the key will be treated as the secret itself.
+        # In this case, the key will be treated as the secret itself.
 
     #3. Generate HMAC-SHA1 TOTP Code using current timestamp
         totp.TOTP1()
@@ -27,7 +26,7 @@ import struct
         totp.TOTP512_ex(timestamp: int)
 
     #6. Mannually generate TOTP Code
-        totp.Key = **Somekey**
+        totp.Key = **Some key**
         totp.GenerateTOTP(
             self.GetTS_ex(**timestamp**: int),
             **hashlib.sha1 | hashlib.sha256 | hashlib.sha512 | etc.**
@@ -129,7 +128,7 @@ class TOTP():
     #   <class 'bytes'> : byte array
     # Note:
     #   The binascii.unhexlify method will correctly convert any byte in the str,
-    #   yet we don't need to add another byte to the beginning of the hex str.
+    #   so we don't need to add another byte to the beginning of the hex str.
     @classmethod
     def hex2bytes(cls, hex_: str) -> bytes:
 
@@ -137,14 +136,14 @@ class TOTP():
         if '0x' == hex_[:2].lower():
             hex_ = hex_[2:]
         
-        # Add one byte to get the right conversion
+        # Add one byte to get the right conversion (Java implementation)
         # hex_ = '10' + hex_
 
         # Get byte array
         byte_array = binascii.unhexlify(hex_)
 
         # Do not return the first byte,
-        # it is what we added in the first step of this conversion
+        # it is what we added in the first step of this conversion (Java Implementation)
         # return byte_array[1:]
         return byte_array
 
